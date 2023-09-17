@@ -1,12 +1,12 @@
 # How to clone and start this application
 
-## git clone git@github.com:georgemathewk/reactjs_training_code_malayalam.git
+$git clone git@github.com:georgemathewk/reactjs_training_code_malayalam.git
 
-## cd reactjs_training_code_malayalam
+$cd reactjs_training_code_malayalam
 
-## npm update
+$npm update
 
-## npm start
+$npm start
 
 
 
