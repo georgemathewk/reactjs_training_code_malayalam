@@ -12,6 +12,8 @@ function ListItem(props) {
 		console.log("useEffect Hook is called");
 	});
 
+	console.log("ListItem : Render");
+
 	return (
 
 			<div className="list-item">

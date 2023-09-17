@@ -8,7 +8,8 @@ class Tools extends React.Component{
         const onlyChild = React.Children.only(children)
         const cnt = React.Children.count(onlyChild.props.children);
         
-        
+        console.log("Tools : Render");
+
         return (
         
             <div className="list-tools">

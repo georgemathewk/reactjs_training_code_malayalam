@@ -4,6 +4,7 @@ import Tools from '../list/Tools';
 import SimpleList from '../list/SimpleList';
 
 import { MyContext, MyNewContext } from './mycontexts';
+import JustComponent from './JustInfo';
 
 
 class HomePage extends React.Component{
@@ -148,9 +149,11 @@ class HomePage extends React.Component{
         });
 
 
-
+        console.log("HomePage : Render");
         
         return ( 
+
+
 
 
             <div>
@@ -169,6 +172,8 @@ class HomePage extends React.Component{
                         <Tools onAddNew={this.addNew} curState={activeState} onAction={this.onAction} onRefreshClicked={this.handleRefresh}>
                             <SimpleList data = {newArray} onAction={this.handleDelete} onLabelClicked={this.labelClick} />
                         </Tools>
+
+                        <JustComponent />
 
                     </MyContext.Provider>
 

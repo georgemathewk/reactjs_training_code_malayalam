@@ -7,7 +7,7 @@ class Label2 extends React.Component{
     render() {
         const props = this.props;
         const style = props.isActive? { background: 'green' } : { background: 'orange'};
-        console.log(this.context);
+        console.log("Label2 : Render");
         return (
 
             <MyContext.Consumer>{

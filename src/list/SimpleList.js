@@ -15,6 +15,7 @@ function SimpleList(props) {
                         {
 
                             data.map( (obj) =>  {
+                                console.log("SimpleList : Render");
                                 return  (
                                 
                                     <ListItem 
