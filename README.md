@@ -1,4 +1,17 @@
+# How to clone and start this application
+
+## git clone git@github.com:georgemathewk/reactjs_training_code_malayalam.git
+
+## cd reactjs_training_code_malayalam
+
+## npm update
+
+## npm start
+
+
+
 # Getting Started with Create React App
+
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
