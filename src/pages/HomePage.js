@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ListItem from '../list/ListItem';
 import Tools from '../list/Tools';
 import SimpleList from '../list/SimpleList';
@@ -7,185 +7,130 @@ import { MyContext, MyNewContext } from './mycontexts';
 import JustComponent from './JustInfo';
 
 
-class HomePage extends React.Component{
+function HomePage(props){
 
-    constructor(props){
-        super(props);
+    console.log("HomePage : Render");
 
-        this.state = {
-            data: [],
-            activeState: 'all',
-            showLabel: true
+    const [ data, setData ] = React.useState([]);
+    const [ activeState, setActiveState ] = React.useState('all');
+    const [ showLabel, setShowLabel ] = React.useState(true);
 
-        }
+    useEffect( () => {
 
-    }
-
-    componentDidMount() {
+        console.log('HomePage : useEffect');
         fetch('./data.json') 
             .then( (data) => {
                 return data.json();
             })
             .then ( (data) => {
-                this.setState( {
-                    data: data
-                });
+                setData(data);
             });
+    },[]);
 
-    }
+    const handleRefresh = () => {
 
-    handleRefresh = () => {
-
-        console.log("handleRefresh");
-
-        
         fetch('./data2.json') 
             .then( (data) => {
                 return data.json();
             })
             .then ( (data) => {
-                this.setState( {
-                    data: data
-                });
+                setData(data);
             });
-        
-
     }
 
-    
-
-    componentDidUpdate(prevProps, prevState){
-        
-        if(prevState.message !== this.state.message){
-            this.setState({
-                message:'message'
-            });
-        }
-    }
-
-    componentWillUnmount() {
-        console.log("HomePage : Unmount");
-    }
-
-    onAction = (evt) => {
+    const onAction = (evt) => {
 
         const selected = evt.target.value;
-        this.setState({ activeState: selected});
-
+        setActiveState(selected);
 
     }
 
-    handleDelete = (obj) => {
-        const newData = this.state.data.filter ( item =>{
+    const handleDelete = (obj) => {
+        const newData = data.filter ( item =>{
             return obj.id !== item.id
         } );
 
-        this.setState( {
-            data: newData
-        });
+        setData(newData);
     }
 
-    labelClick = (obj) => {
-
-        let curState = 'all';
-        if(obj.isActive){
-            curState = 'active';
-        }else {
-            curState = 'inactive';
-        }
-        this.setState( {
-            activeState : curState
-        })
-
+    const labelClick = (obj) => {
+            
+            let curState = 'all';
+            if(obj.isActive){
+                curState = 'active';
+            }else {
+                curState = 'inactive';
+            }
+            setActiveState(curState);
+    
     }
 
-    addNew = (title, desc, activeState) => {
-        const data = this.state.data;
+    const addNew = (title, desc, activeState) => {
         const newData = data.push({
-            id: this.state.data.length+1,
+            id: data.length+1,
             title: title,
             desc: desc,
             isActive: activeState
         });
 
-        this.setState({
-             data: data
-        });
+        setData(newData);
 
-        console.log(data);
     }
 
-    showLabelClicked = (val) => {
-        this.setState({showLabel: val});
+    const showLabelClicked = (val) => {
+        setShowLabel(val);
     }
 
 
-    render(){
-
-        const { data, activeState } = this.state;
-
-
-
-        const newArray = data.filter( value => {
+    const newArray = data.filter( value => {
 
             if(activeState === "all"){
                 return true;
             }
 
-            if(activeState === "active"){
+            if(activeState === "active"){   
                 if(value.isActive == true){
                     return true;
                 }
             }
 
-            if(activeState === "inactive"){
+            if(activeState === "inactive"){ 
                 if(value.isActive == false){
                     return true;
                 }
             }
 
-            return false;
+
+             return false;
 
         });
 
 
-        console.log("HomePage : Render");
-        
-        return ( 
-
-
-
-
+    return (
+        <div>
             <div>
-
-                <div>
-                    <input type='checkbox' checked={this.state.showLabel} onClick={ (evt) => {
-                            this.showLabelClicked(evt.target.checked);
+                    <input type='checkbox' checked={showLabel} onClick={ (evt) => {
+                            showLabelClicked(evt.target.checked);
                         }
                     } /> Show Label
-                </div>
-
-                <MyNewContext.Provider value={100}>
-
-                    <MyContext.Provider value={this.state.showLabel}>
-                
-                        <Tools onAddNew={this.addNew} curState={activeState} onAction={this.onAction} onRefreshClicked={this.handleRefresh}>
-                            <SimpleList data = {newArray} onAction={this.handleDelete} onLabelClicked={this.labelClick} />
-                        </Tools>
-
-                        <JustComponent />
-
-                    </MyContext.Provider>
-
-                </MyNewContext.Provider>
-
-                
-
             </div>
 
+            <MyNewContext.Provider value={100}>
 
-        );
-    }
+                <MyContext.Provider value={showLabel}>
+            
+                    <Tools onAddNew={addNew} curState={activeState} onAction={onAction} onRefreshClicked={handleRefresh}>
+                        <SimpleList data = {newArray} onAction={handleDelete} onLabelClicked={labelClick} />
+                    </Tools>
+
+                    <JustComponent />
+
+                </MyContext.Provider>
+
+            </MyNewContext.Provider>            
+
+        </div>
+    )
 }
 
 
